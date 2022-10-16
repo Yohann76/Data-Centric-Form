@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fe05f329756ac720da9843286199f259",
+    "content-hash": "0119236f89ac3f73034f98ca681e4760",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1719,6 +1719,47 @@
                 }
             ],
             "time": "2021-12-21T14:34:37+00:00"
+        },
+        {
+            "name": "libreworks/ext-mongodb-hhi",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/libreworks/ext-mongodb-hhi.git",
+                "reference": "286700e3691c594b47190123c9a1ac385d07a218"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/libreworks/ext-mongodb-hhi/zipball/286700e3691c594b47190123c9a1ac385d07a218",
+                "reference": "286700e3691c594b47190123c9a1ac385d07a218",
+                "shasum": ""
+            },
+            "suggest": {
+                "ext-mongodb": "To connect to MongoDB"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.2.x-dev"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "description": "Typechecker definitions for MongoDB HHVM Driver",
+            "homepage": "https://github.com/libreworks/ext-mongodb-hhi",
+            "keywords": [
+                "hack",
+                "hhi",
+                "hhvm",
+                "mongodb"
+            ],
+            "support": {
+                "issues": "https://github.com/libreworks/ext-mongodb-hhi/issues",
+                "source": "https://github.com/libreworks/ext-mongodb-hhi/tree/1.2.0"
+            },
+            "time": "2016-11-29T19:14:34+00:00"
         },
         {
             "name": "monolog/monolog",

@@ -1,21 +1,60 @@
-version: '3'
-
+version: '2'
 services:
-###> doctrine/doctrine-bundle ###
-  database:
-    image: postgres:${POSTGRES_VERSION:-14}-alpine
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB:-app}
-      # You should definitely change the password in production
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
-      POSTGRES_USER: ${POSTGRES_USER:-app}
-    volumes:
-      - db-data:/var/lib/postgresql/data:rw
-      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
-      # - ./docker/db/data:/var/lib/postgresql/data:rw
-###< doctrine/doctrine-bundle ###
 
-volumes:
-###> doctrine/doctrine-bundle ###
-  db-data:
-###< doctrine/doctrine-bundle ###
+  nginx:
+    container_name: Nginx
+    build : docker/nginx
+    links:
+      - php
+    ports:
+      - 8000:80
+    restart: always
+    volumes:
+      - '.:/var/www/data-centric-form'
+      - './docker/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf'
+    working_dir: /var/www/data-centric-form
+    # available in : http://localhost:8000/
+
+  php:
+    build: docker/php
+    container_name: Php
+    depends_on:
+      - mongodb
+    links:
+      - mongodb
+    ports:
+      - 9000:9000
+    restart: always
+    volumes:
+      - .:/var/www/data-centric-form:cached
+    working_dir: /var/www/data-centric-form
+    # run : docker-compose exec php sh 
+    # run : docker-compose exec php composer update
+    # run : docker-compose exec php php /var/www/data-centric-form/bin/console cache:clear 
+    # run : docker-compose exec php php /var/www/data-centric-form/bin/console d:d:c
+    # run : docker-compose exec php php /var/www/data-centric-form/bin/console doctrine:schema:update --force
+    # run : docker-compose exec php php /var/www/data-centric-form/bin/console d:f:l -n
+
+    # run : docker-compose exec php sh 
+    # run : php bin/console d:d:c
+
+    # on linux 
+    ## run : docker-compose exec php sh 
+
+    ##install composer 2 : composer self-update #install composer 2 in dockerfile for resolve this issue 
+
+
+  mongodb:
+      image: mongo
+      container_name: mongo
+      restart: always
+      volumes:
+          - ./data/db/mongo:/data/db # /src/Document  ???? 
+      ports:
+          - "27020:27017"
+      command: --storageEngine wiredTiger
+
+  # docker exec -it mongo bash
+
+  # mongoexport --port 27020 --db test --collection mycollection --out $(pwd)/data/db/dumps/mycollection.json # Creating database exports
+  # mongodump --port 27020 --db test --collection mycollection --out $(pwd)/data/db/dumps # Creating database dumps
